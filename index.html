@@ -11,7 +11,21 @@
     <header class="header">
        <h1>FindWord Game</h1> 
     </header>
+    <div class="settings-panel">
+        <input id="rules-btn" type="button" value="Правила" class="set-btn">
+    </div>
+    <div id="rules-block" class="rules-block">
+        <p class="rules-paragraph">FindWord — это игра, где нужно угадать всего лишь одно англоязычное слово из пяти букв. На это даётся шесть попыток. Для начала нужно вписать любое слово в верхнюю строчку игрового поля. Если хотя бы одна буква в вашем слове соответствует загаданному, то она подсветится зелёным, когда стоит в нужном месте, и жёлтым, когда стоит не там, где надо. Если все ячейки вашего слова остаются серыми, значит в искомом слове вообще нет этих букв.
+
+            Далее, учитывая угаданные буквы, вы можете вписать новое слово, а потом и следующее — пока не угадаете загаданное или у вас не кончатся попытки.
+        </p>
+
+    </div>
     <div id="play-board"></div>
+
+    <div class="restart-row">
+        <input type="button" id="restart-btn" value="Заново"/>
+    </div>
 <script src="dist/simple-notify.min.js"></script>
    
     <script src="words.js"></script>

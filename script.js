@@ -2,11 +2,17 @@ const NUMBER_OF_GUESSES = 6;
 let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
 let nextLetter = 0;
-let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
-console.log(rightGuessString)
+let rightGuessString = '';
+
+function generateWord(){
+    rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
+    console.log(rightGuessString)
+}
+
 
 function initBoard() {
-
+    if(rightGuessString === '')
+    generateWord();
     let board = document.getElementById("play-board");
 
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
@@ -59,7 +65,9 @@ function checkGuess () {
         new Notify({
             title: "Ошибка",
             text: "Введены не все буквы",
-            status: 'error'
+            status: 'error',
+            autoclose: true,
+            autotimeout: 3000
         })
         return;
     }
@@ -68,7 +76,9 @@ function checkGuess () {
         new Notify({
             title: "Ошибка",
             text: "Такого слова не существует",
-            status: 'error'
+            status: 'error',
+            autoclose: true,
+            autotimeout: 3000
         })
         return;
     }
@@ -78,12 +88,12 @@ function checkGuess () {
         let box = row.children[i]
         let letterPosition = rightGuess.indexOf(currentGuess[i])
         if (letterPosition === -1) {
-            letterColor = 'grey'
+            letterColor = '#6c757d'
         } else {
             if (currentGuess[i] === rightGuess[i]) {
-                letterColor = 'green'
+                letterColor = '#7dc67d'
             } else {
-                letterColor = 'yellow'
+                letterColor = '#ffc107'
             }
             rightGuess[letterPosition] = "#"
         }
@@ -94,7 +104,9 @@ function checkGuess () {
         new Notify({
             title: "Победа",
             text: "Вы нашли слово",
-            status: 'success'
+            status: 'success',
+            autoclose: true,
+            autotimeout: 3000
         })
         guessesRemaining = 0;
         return
@@ -104,8 +116,14 @@ function checkGuess () {
         nextLetter = 0;
 
         if (guessesRemaining === 0) {
-            toastr.error("У вас не осталось попыток. Вы проиграли!");
-            toastr.info(`Загаданное слово: "${rightGuessString}"`)
+            new Notify({
+                title: "Поражение",
+                text: "Вы не нашли слово",
+                status: 'error',
+                autoclose: true,
+                autotimeout: 3000
+                
+            })
         }
     }
 }
@@ -132,6 +150,27 @@ document.addEventListener("keydown", (e) => {
     }
 })
 
+
+document.getElementById("restart-btn").addEventListener("click", () => {
+    
+ guessesRemaining = NUMBER_OF_GUESSES;
+ currentGuess = [];
+ nextLetter = 0;
+ rightGuessString = '';
+
+    generateWord();
+    removeBoard();
+    initBoard();
+})
+
+
+document.getElementById("rules-btn").addEventListener("click", () => {
+    document.getElementById('rules-block').classList.toggle("shown");
+})
+
+function removeBoard(){
+    document.getElementById("play-board").replaceChildren();
+}
 
 initBoard();
 
